@@ -1,4 +1,4 @@
-# ngx_auto_keepalive
+# ngx_http_bjtuindex
 
 autoindex module for mirror.bjtu.edu.cn, with nicer style.
 
