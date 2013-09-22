@@ -694,7 +694,7 @@ ngx_http_bjtuindex_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
     ngx_conf_merge_value(conf->enable, prev->enable, 0);
     ngx_conf_merge_value(conf->localtime, prev->localtime, 0);
     ngx_conf_merge_value(conf->exact_size, prev->exact_size, 1);
-    ngx_conf_merge_str_value(conf->css_path, prev->css_path, "style.css");
+    ngx_conf_merge_str_value(conf->css_path, prev->css_path, "/style.css");
 
     return NGX_CONF_OK;
 }
