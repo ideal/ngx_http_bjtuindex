@@ -29,6 +29,7 @@ typedef struct {
     ngx_flag_t     enable;
     ngx_flag_t     localtime;
     ngx_flag_t     exact_size;
+    ngx_str_t      css_path;
 } ngx_http_bjtuindex_loc_conf_t;
 
 
@@ -70,6 +71,13 @@ static ngx_command_t  ngx_http_bjtuindex_commands[] = {
       offsetof(ngx_http_bjtuindex_loc_conf_t, exact_size),
       NULL },
 
+    { ngx_string("bjtuindex_css_path"),
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_TAKE1,
+      ngx_conf_set_str_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(ngx_http_bjtuindex_loc_conf_t, css_path),
+      NULL },
+
       ngx_null_command
 };
 
@@ -109,7 +117,10 @@ static u_char title[] =
 "<html>" CRLF
 "<head>" CRLF
 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" >" CRLF
-"<link href=\"/cn/style.css\" rel=\"stylesheet\" type=\"text/css\" />" CRLF
+"<link href=\"";
+
+static u_char css[]   =
+"\" rel=\"stylesheet\" type=\"text/css\" />" CRLF
 "<style type=\"text/css\"> \
 table { \
       border: none; \
@@ -396,6 +407,8 @@ ngx_http_bjtuindex_handler(ngx_http_request_t *r)
     escape_html = ngx_escape_html(NULL, r->uri.data, r->uri.len);
 
     len = sizeof(title) - 1
+          + alcf->css_path.len
+          + sizeof(css) - 1
           + r->uri.len + escape_html
           + sizeof(header) - 1
           + r->uri.len + escape_html
@@ -432,6 +445,8 @@ ngx_http_bjtuindex_handler(ngx_http_request_t *r)
     }
 
     b->last = ngx_cpymem(b->last, title, sizeof(title) - 1);
+    b->last = ngx_cpymem(b->last, alcf->css_path.data, alcf->css_path.len);
+    b->last = ngx_cpymem(b->last, css, sizeof(css) - 1);
 
     if (escape_html) {
         b->last = (u_char *) ngx_escape_html(b->last, r->uri.data, r->uri.len);
@@ -662,6 +677,9 @@ ngx_http_bjtuindex_create_loc_conf(ngx_conf_t *cf)
     conf->enable     = NGX_CONF_UNSET;
     conf->localtime  = NGX_CONF_UNSET;
     conf->exact_size = NGX_CONF_UNSET;
+#if 0
+    conf->css_path   = ngx_null_string;
+#endif
 
     return conf;
 }
@@ -676,6 +694,7 @@ ngx_http_bjtuindex_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
     ngx_conf_merge_value(conf->enable, prev->enable, 0);
     ngx_conf_merge_value(conf->localtime, prev->localtime, 0);
     ngx_conf_merge_value(conf->exact_size, prev->exact_size, 1);
+    ngx_conf_merge_str_value(conf->css_path, prev->css_path, "style.css");
 
     return NGX_CONF_OK;
 }

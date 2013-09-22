@@ -17,4 +17,5 @@ Configuration
 In main, server or location config:
 ```
     bjtuindex on;
+    bjtuindex_css_path "cn/style.css";
 ```
