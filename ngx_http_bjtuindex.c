@@ -152,14 +152,14 @@ table { \
 static u_char header[] =
 "</title></head>" CRLF
 "<div id=\"header\">" CRLF
-"<h1><a href=\"/index.html\" title=\"BJTU free and open source software mirror\"><span>BJTU mirror</span></a></h1>" CRLF
+"<h1><a href=\"/cn/index.html\" title=\"BJTU free and open source software mirror\"><span>BJTU mirror</span></a></h1>" CRLF
 "<ul>" CRLF
-"<li><a class=\"tab-home highlight-gray\" href=\"/index.html\" title=\"Home\">Home</a></li>" CRLF
-"<li><a class=\"tab-update highlight-yellow\" href=\"/update.html\" title=\"Update history\">Update</a></li>" CRLF
-"<li><a class=\"tab-news highlight-purple\" href=\"/news.html\" title=\"News\">News</a></li>" CRLF
-"<li><a class=\"tab-howto highlight-red\" href=\"/howto.html\" title=\"How to use\">Howto</a></li>" CRLF
-"<li><a class=\"tab-stat highlight-green\" href=\"/stat.html\" title=\"User statistic\">Statistic</a></li>" CRLF
-"<li><a class=\"tab-flow highlight-blue\" href=\"/flow.html\" title=\"Flow\">Flow</a></li>" CRLF
+"<li><a class=\"tab-home highlight-gray\" href=\"/cn/index.html\" title=\"Home\">Home</a></li>" CRLF
+"<li><a class=\"tab-update highlight-yellow\" href=\"/cn/update.html\" title=\"Update history\">Update</a></li>" CRLF
+"<li><a class=\"tab-news highlight-purple\" href=\"/cn/news.html\" title=\"News\">News</a></li>" CRLF
+"<li><a class=\"tab-howto highlight-red\" href=\"/cn/howto.html\" title=\"How to use\">Howto</a></li>" CRLF
+"<li><a class=\"tab-stat highlight-green\" href=\"/cn/stat.html\" title=\"User statistic\">Statistic</a></li>" CRLF
+"<li><a class=\"tab-flow highlight-blue\" href=\"/cn/flow.html\" title=\"Flow\">Flow</a></li>" CRLF
 "</ul>" CRLF
 "</div>" CRLF
 "<div id=\"headline\">" CRLF
@@ -413,7 +413,9 @@ ngx_http_bjtuindex_handler(ngx_http_request_t *r)
           + sizeof(header) - 1
           + r->uri.len + escape_html
           + sizeof("</h4></div>") - 1
-          + sizeof("<div id=\"page\"><div id=\"simple-page\"><div class=\"main\"><table><tr><td><a href=\"../\">../</a></td></tr>" CRLF) - 1
+          + sizeof("<div id=\"page\"><div id=\"simple-page\">"
+                   "<div class=\"main\"><table><tr><td>"
+                   "<a href=\"../\">../</a></td></tr>" CRLF) - 1
           + sizeof("</table>") - 1
           + sizeof(tail) - 1;
 
