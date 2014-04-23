@@ -348,7 +348,7 @@ ngx_http_bjtuindex_handler(ngx_http_request_t *r)
             if (ngx_de_info(filename, &dir) == NGX_FILE_ERROR) {
                 err = ngx_errno;
 
-                if (err != NGX_ENOENT) {
+                if (err != NGX_ENOENT && err != ENX_ELOOP) {
                     ngx_log_error(NGX_LOG_CRIT, r->connection->log, err,
                                   ngx_de_info_n " \"%s\" failed", filename);
 
@@ -437,7 +437,7 @@ ngx_http_bjtuindex_handler(ngx_http_request_t *r)
 
     b = ngx_create_temp_buf(r->pool, len);
     if (b == NULL) {
-        return NGX_HTTP_INTERNAL_SERVER_ERROR;
+        return NGX_ERROR;
     }
 
     if (entries.nelts > 1) {
